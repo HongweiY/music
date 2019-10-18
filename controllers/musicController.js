@@ -51,5 +51,20 @@ module.exports = {
             code: '200',
             msg: '更新成功'
         }
+    },
+    async deleteMusic(ctx, next) {
+        let id = ctx.request.query.id;
+        let deleteResult = await musicModel.deleteMusicByID(id);
+        if (deleteResult.affectedRows===0) {
+            ctx.body = {
+                code: '500',
+                msg: updateResult.message
+            }
+            return;
+        }
+        ctx.body = {
+            code: '200',
+            msg: '删除成功'
+        }
     }
 }

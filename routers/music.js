@@ -3,7 +3,8 @@ const musicController = require('../controllers/musicController')
 let musicRouter = new Router();
 //添加音乐
 musicRouter.post('/music/add',musicController.addMusic)
-    .post('/music/update',musicController.updateMusic)
+    .put('/music/update',musicController.updateMusic)
+    .delete('/music/delete',musicController.deleteMusic)
     .get('/music/index', async ctx => {
         ctx.render('index');
     })
