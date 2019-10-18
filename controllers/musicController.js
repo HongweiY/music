@@ -40,10 +40,16 @@ module.exports = {
         let { id } = ctx.request.body;
         Object.assign(updateMusicObj, { id });
         let updateResult = await musicModel.updateMusic(updateMusicObj);
+        if (updateResult.affectedRows !== 1) {
+            ctx.body = {
+                code: '500',
+                msg: updateResult.message
+            }
+            return;
+        }
         ctx.body = {
             code: '200',
-            msg: result.message
+            msg: '更新成功'
         }
-
     }
 }

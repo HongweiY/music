@@ -7,7 +7,7 @@ module.exports = {
         password: 'Admin0417',
         database: 'node_music'
     },
-    appPort: 8000,
+    appPort: 8888,
     viewDir: path.resolve('./views'),
     publicDir: path.resolve('./public'),
     uploadDir: path.resolve('./public/upload'),
