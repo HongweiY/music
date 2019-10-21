@@ -1,18 +1,14 @@
 const Router = require('koa-router');
-const musicController = require('../controllers/musicController')
+const musicController = require('../controllers/musicController');
 let musicRouter = new Router();
 //添加音乐
-musicRouter.post('/music/add',musicController.addMusic)
-    .put('/music/update',musicController.updateMusic)
-    .delete('/music/delete',musicController.deleteMusic)
-    .get('/music/index', async ctx => {
-        ctx.render('index');
-    })
+musicRouter.post('/music/add', musicController.addMusic)
+    .put('/music/update', musicController.updateMusic)
+    .delete('/music/delete', musicController.deleteMusic)
+    .get('/music/index',musicController.indexPage)
     .get('/music/add', async ctx => {
         ctx.render('add');
     })
-    .get('/music/edit', async ctx => {
-        ctx.render('edit');
-    })
+    .get('/music/edit', musicController.editMusicPage);
 
-module.exports = musicRouter;
+module.exports = musicRouter

@@ -55,7 +55,7 @@ module.exports = {
     async deleteMusic(ctx, next) {
         let id = ctx.request.query.id;
         let deleteResult = await musicModel.deleteMusicByID(id);
-        if (deleteResult.affectedRows===0) {
+        if (deleteResult.affectedRows === 0) {
             ctx.body = {
                 code: '500',
                 msg: updateResult.message
@@ -66,5 +66,30 @@ module.exports = {
             code: '200',
             msg: '删除成功'
         }
-    }
+    },
+    //页面编辑展示页面
+    async editMusicPage(ctx, next) {
+        let id = ctx.query.id;
+        let musicResult = await musicModel.findMusicByID(id);
+        if (musicResult.length === 0) {
+            ctx.throw('参数错误');
+            return;
+        }
+        let music = musicResult[0];
+        ctx.render('edit', {
+            music: music
+        })
+    },
+    //用户歌曲页面
+    async indexPage(ctx, next) {
+        //todo
+        let uid = 1;
+        let musicResults = await musicModel.findMusicByUID(uid);
+        ctx.render('index', {
+            musics: musicResults
+        })
+
+    },
+   
+
 }
