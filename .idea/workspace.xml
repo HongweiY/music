@@ -2,18 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f41b56b3-3a95-48ef-a4e0-f20c1b0328b8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/public/css/toastr.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/toastr.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/musicController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/musicController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/userController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/userController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/music.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/music.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/captchapng2/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/captchapng2/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/color-name/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/color-name/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/node-pnglib/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/node-pnglib/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routers/music.js" beforeDir="false" afterPath="$PROJECT_DIR$/routers/music.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routers/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/routers/user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/public/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/public/header.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/public/linker.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/public/linker.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/register.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -34,16 +35,19 @@
   </component>
   <component name="ProjectId" id="1QGCvGBaYr240y8iyRG1SN3oszG" />
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/js" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Language Defaults" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.JavaScript" />
     <property name="settings.editor.splitter.proportion" value="0.28134254" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\WebstormProjects\NodeMusic\public\js" />
+      <recent name="E:\WebstormProjects\NodeMusic\public\css" />
       <recent name="F:\WebstormProjects\NodeMusic\models" />
     </key>
   </component>
@@ -84,7 +88,8 @@
       <workItem from="1568192139856" duration="2000" />
       <workItem from="1571549866695" duration="877000" />
       <workItem from="1571654770959" duration="32000" />
-      <workItem from="1571654914206" duration="1657000" />
+      <workItem from="1571654914206" duration="4876000" />
+      <workItem from="1571706058389" duration="16949000" />
     </task>
     <servers />
   </component>

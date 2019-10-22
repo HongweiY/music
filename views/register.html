@@ -3,15 +3,17 @@
 
 <style type="text/css">
     #pwd-level div {
-        height: 30px;
-        width: 30px;
+        height: 12px;
+        width: 58px;
         display: inline-block;
         float: left;
+        margin-top: 6px;
     }
 
     #pwd-level span {
         display: inline-block;
         float: left;
+        margin-right: 10px;
     }
 </style>
 <link href="/public/css/register.css" rel="stylesheet" type="text/css"/>
@@ -27,26 +29,29 @@
                     <i class="icon icon-delete"></i> <em></em>
                 </li>
                 <li>
-                    <input class="aw-register-name form-control" type="text" name="username" placeholder="用户名"
+                    <input class="aw-register-name form-control" type="text" name="username" id="username"
+                           placeholder="用户名"
                            value=""/>
                 </li>
                 <li>
                     <input class="aw-register-email form-control" type="text" placeholder="邮箱" name="email" value=""/>
                 </li>
                 <li>
-                    <input class="aw-register-pwd form-control" type="password" name="password" placeholder="密码"/>
+                    <input class="aw-register-pwd form-control" type="password" id="password" name="password"
+                           placeholder="密码"/>
                 </li>
-                <div id='pwd-level'>
+                <div id='pwd-level' style="margin-bottom: 40px">
                     <span>密码强度:</span>
+                    <div></div>
                     <div></div>
                     <div></div>
                     <div></div>
                 </div>
                 <hr/>
-<!--                <li class="aw-register-verify">-->
-<!--                    <img class="pull-right" width="120" src="">-->
-<!--                    <input type="text" class="form-control" name="vcode" placeholder="验证码"/>-->
-<!--                </li>-->
+                <li class="aw-register-verify" >
+                    <img class="pull-right" width="120" src="/user/getPic" onclick="this.src = '/user/getPic?'+Date.now()">
+                    <input type="text" class="form-control" name="vcode" placeholder="验证码"/>
+                </li>
                 <li class="last">
                     <label>
                         <input type="checkbox" checked="checked" value="agree"/> 我同意</label> <a href="javascript:;"
@@ -65,4 +70,110 @@
         </form>
     </div>
 </div>
+
+<script>
+
+    /**
+     * 检查用户名是否可用
+     */
+    var checkUsername = (function () {
+        var timer;
+        var prevUsername;
+        return function (e) {
+            clearTimeout(timer);
+            var that = this;
+            timer = setTimeout(function () {
+                var username = $(that).val();
+                if (username === prevUsername) {
+                    return
+                }
+                $.ajax({
+                    url: '/user/checkUsername',
+                    type: 'post',
+                    data: 'username=' + username,
+                    dataType: 'json',
+                    success: function (data) {
+                        prevUsername = username;
+
+                        if (data.code === 200) {
+                            toastr.success(data.msg)
+                        } else {
+                            toastr.error(data.msg)
+
+                        }
+                    }
+
+                })
+            }, 500)
+        }
+    })();
+    $('#username').on('keyup', checkUsername);
+
+    /**
+     * 检查密码强度
+     * @param str
+     */
+    function checkPwdLevel(str) {
+        var temptLevel = 0;
+        var reg1 = /[0-9]/;
+        var reg2 = /[a-z]/;
+        var reg3 = /[A-Z]/;
+        var reg4 = /\W/;
+        if (reg1.test(str)) {
+            temptLevel++;
+        }
+        if (reg2.test(str)) {
+            temptLevel++;
+        }
+
+        if (reg3.test(str)) {
+            temptLevel++;
+        }
+        if (reg4.test(str)) {
+            temptLevel++;
+        }
+
+        return temptLevel;
+    }
+
+    $('#password').on('keyup', function (e) {
+        var pwd = $(this).val();
+        var pwdLevel = checkPwdLevel(pwd);
+        var divs = $('#pwd-level').find('div');
+        for (var i = 0; i < divs.length; i++) {
+            divs[i].style.backgroundColor = '';
+        }
+        var colors = ['red', 'orange', 'blue', 'green'];
+        for (var j = 0; j < pwdLevel; j++) {
+            divs[j].style.backgroundColor = colors[j];
+        }
+
+    })
+
+    $('#register_form').on('submit', function (e) {
+        e.preventDefault();
+        var registerData = $(this).serialize();
+        $.ajax({
+            url: '/user/register',
+            type: 'post',
+            data: registerData,
+            dataType: 'json',
+            success: function (data) {
+                if (data.code === "200") {
+                    if (confirm('注册成功，是否立即登录？')) {
+                        window.location = '/user/login';
+                    }
+                } else {
+                    toastr.error('注册失败：' + data.msg);
+                }
+            }
+        })
+    })
+
+
+
+
+</script>
 {{/block}}
+
+

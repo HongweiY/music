@@ -53,6 +53,12 @@ let store = {
 app.keys = ['ymfsder'];
 app.use(session({ store: store }, app));
 
+
+app.use(async (ctx,next)=>{
+    ctx.state.user = ctx.session.user;
+    await next();
+})
+
 //中间体数据
 // app.use(bodyParser());
 app.use(formidable({

@@ -20,7 +20,7 @@ function optUpload(ctx) {
         ctx.throw('歌曲路径必填');
     }
     saveMusicObj.file = '/public/upload' + path.parse(file.path).base;
-    saveMusicObj.uid = 1;
+    saveMusicObj.uid =  ctx.session.user.id;;
     return saveMusicObj;
 }
 module.exports = {
@@ -82,8 +82,9 @@ module.exports = {
     },
     //用户歌曲页面
     async indexPage(ctx, next) {
-        //todo
-        let uid = 1;
+
+        let uid =  ctx.session.user.id;
+        console.log( ctx.session.user);
         let musicResults = await musicModel.findMusicByUID(uid);
         ctx.render('index', {
             musics: musicResults
