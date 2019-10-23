@@ -10,7 +10,7 @@ const userRouter = require('./routers/user');
 
 //创建服务器
 let app = new Koa();
-let { appPort, viewDir, publicDir, uploadDir } = require('./config')
+let {appPort, viewDir, publicDir, uploadDir} = require('./config')
 //开启服务器
 app.listen(appPort, () => {
 
@@ -28,11 +28,11 @@ render(app, {
 //static
 let rewriteUrl = require('./middleware/rewrite')
 let error = require('./middleware/error');
+let checkLogin = require('./middleware/checkLogin')
 
 app.use(error());
 app.use(rewriteUrl(require('./rewriteurlConfig')));
 
- 
 
 //处理静态资源
 app.use(require('koa-static')(publicDir));
@@ -51,10 +51,13 @@ let store = {
 };
 //基于keys字符串进行签名的运算，保证数据不被修改
 app.keys = ['ymfsder'];
-app.use(session({ store: store }, app));
+app.use(session({store: store}, app));
+
+//权限控制
+app.use(checkLogin);
 
 
-app.use(async (ctx,next)=>{
+app.use(async (ctx, next) => {
     ctx.state.user = ctx.session.user;
     await next();
 })

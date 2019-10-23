@@ -1,11 +1,7 @@
 {{ extend './layout/main.html' }}
 {{block 'content'}}
 <div class="container">
-    <form id="form" method="post" action="/">
-        <div class="form-group">
-            <label for="">歌曲编号</label>
-            <input type="text" name="id" class="form-control" placeholder="请输入歌曲编号">
-        </div>
+    <form id="form" method="post">
         <div class="form-group">
             <label for="">歌曲标题</label>
             <input type="text" name="title" class="form-control" placeholder="请输入歌曲标题">
@@ -23,8 +19,41 @@
             <input type="file" name="file">
             <p class="help-block">请上传歌曲文件.</p>
         </div>
+        <div class="form-group">
+            <label for="">歌曲文件</label>
+            <input type="file" name="fileLrc">
+            <p class="help-block">请上传歌曲文件.</p>
+        </div>
         <button type="submit" class="btn btn-success">点击添加</button>
     </form>
 </div>
+<script>
+    $('#form').on('submit', function (e) {
+        e.preventDefault();
+        var inputs = document.querySelectorAll('input');
+        var formData = new FormData();
+        formData.append('title', inputs[0].value);
+        formData.append('time', inputs[1].value);
+        formData.append('singer', inputs[2].value);
+        formData.append('file', inputs[3].files[0]);
+        formData.append('fileLrc', inputs[4].files[0]);
+        $.ajax({
+            url: '/music/addMusic',
+            type: 'post',
+            dataType: 'json',
+            data:formData,
+            contentType:false,
+            processData:false,
+            success: function (data) {
+                if (data.code = '200') {
+                    toastr.success('添加成功，正在跳转首页');
+                    setTimeout(function () {
+                        window.location = '/music/index'
+                    }, 2000)
+                }
+            }
+        });
+    })
+</script>
 {{/block}}
 

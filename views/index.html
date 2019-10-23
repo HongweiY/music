@@ -23,8 +23,8 @@
     }
 
     .gl {
-        color: hotpink;
-        background-color: red;
+        color: #36ffa6;
+        //background-color: #3cc1ff;
     }
 </style>
 
@@ -38,25 +38,26 @@
     <div class="row" style="display: flex;">
         <div style="flex: 3; margin-right: 10px;">
             <table class="table table-striped table-hover">
-                <thead> 
-                    <th>歌曲标题</th>
-                    <th>时长</th>
-                    <th>歌手</th>
-                    <th>编辑</th>
-                    <th>删除</th>
-                    <th>播放</th>
+                <thead>
+                <th>歌曲标题</th>
+                <th>时长</th>
+                <th>歌手</th>
+                <th>编辑</th>
+                <th>删除</th>
+                <th>播放</th>
                 </thead>
                 <tbody class="list_container" id="list_container">
-                    {{each musics}}
-                    <tr>
-                        <td>{{$value.title}}</td>
-                        <td>{{$value.time}}</td>
-                        <td>{{$value.singer}}</td>
-                        <td><a href="/music/edit?id={{$value.id}}">编辑</a></td>
-                        <td><a class="del" href="/music/delete?id={{$value.id}}">删除</a></td>
-                        <td><span style="cursor:pointer" src="" class="glyphicon glyphi con-play-circle ply"></span></td>
-                    </tr>
-                    {{/each}}
+                {{each musics}}
+                <tr>
+                    <td>{{$value.title}}</td>
+                    <td>{{$value.time}}</td>
+                    <td>{{$value.singer}}</td>
+                    <td><a href="/music/edit?id={{$value.id}}">编辑</a></td>
+                    <td><a class="del" id="del" delId="{{$value.id}}" onclick="deleteMusic()">删除</a></td>
+                    <td><span style="cursor:pointer" src="" class="glyphicon glyphicon-play-circle ply"
+                              file="{{$value.file}}" fileLrc="{{$value.file_lrc}}"></span></td>
+                </tr>
+                {{/each}}
 
 
                 </tbody>
@@ -73,4 +74,93 @@
         </div>
     </div>
 </div>
+<script>
+
+
+    /**
+     * 删除歌曲
+     */
+    function deleteMusic() {
+
+        var id = $('#del').attr('delId');
+        $.ajax({
+            url: '/music/delete?id='+id,
+            type: 'delete',
+
+            dataType: 'json',
+            success: function (data) {
+                if (data.code === '200') {
+                    toastr.success('删除成功');
+                    setTimeout(function () {
+                        window.location = '/music/index'
+                    }, 3000);
+                } else {
+                    toastr.error('删除失败：' + data.msg);
+                }
+            }
+        })
+
+    }
+
+    /**
+     * 解析歌词
+     * @param lrc
+     */
+    function parseLrc(lrc) {
+        var lrcObj = {};
+        var lrcLines = lrc.split('\n');
+        var regex = /\[(\d{2})\:(\d{2})\.(\d{2})\](.*)/;
+        for (var i = 0; i < lrcLines.length; i++) {
+            var line = lrcLines[i];
+            var regexResult = regex.exec(line);
+            if (!regexResult) {
+                continue;
+            }
+            var key = (regexResult[1] * 60) + (regexResult[2] - 0);
+            lrcObj[key] = regexResult[4];
+        }
+        return lrcObj;
+    }
+
+    function createLrcDom(obj) {
+        var html = '';
+        for (var time in obj) {
+            html += '<p time="' + time + '">' + obj[time] + '</P>';
+        }
+        $('#lrc').html(html)
+
+
+    }
+
+    function scrollLrc(obj) {
+        $('#audio').on('timeupdate', function (e) {
+            var time = Math.round(e.target.currentTime);
+            if (!obj[time]) return;
+            //查找到time=tiem 的p标签
+            var p = $('#lrc').find('p[time=' + time + ']');
+            //计算差值
+            var minus = $('#lrc').offset().top - p.offset().top;
+            $('#lrc').animate({
+                top: minus
+            }, 'slow');
+            p.addClass('gl').siblings().removeClass('gl')
+        })
+
+    }
+
+    $('.ply').on('click', function (e) {
+        var file = $(this).attr('file');
+        var fileLrc = $(this).attr('fileLrc');
+        $.ajax({
+            url: fileLrc,
+            type: 'get',
+            success: function (res) {
+                var lrcObj = parseLrc(res);
+                createLrcDom(lrcObj);
+                scrollLrc(lrcObj);
+                $('#audio').attr('src', file);
+            }
+        })
+    })
+</script>
 {{/block}}

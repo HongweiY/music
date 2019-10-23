@@ -39,4 +39,34 @@
 
     </form>
 </div>
+<script>
+    $('#form').on('submit', function (e) {
+        e.preventDefault();
+        var inputs = document.querySelectorAll('input');
+        var formData = new FormData();
+        formData.append('id', inputs[0].value);
+        formData.append('title', inputs[1].value);
+        formData.append('time', inputs[2].value);
+        formData.append('singer', inputs[3].value);
+        formData.append('file', inputs[4].files[0]);
+        formData.append('fileLrc', inputs[5].files[0]);
+        $.ajax({
+            url: '/music/update',
+            type: 'put',
+            dataType: 'json',
+            data:formData,
+            contentType:false,
+            processData:false,
+            success: function (data) {
+                if (data.code = '200') {
+                    toastr.success('编辑成功，正在跳转首页');
+                    setTimeout(function () {
+                        window.location = '/music/index'
+                    }, 2000)
+                }
+            }
+        });
+    })
+</script>
+
 {{/block}}
